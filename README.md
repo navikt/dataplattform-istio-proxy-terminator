@@ -78,6 +78,21 @@ docker build -t istio-proxy-terminator .
 
 Produces a small image based on `gcr.io/distroless/cc-debian12:nonroot`.
 
+## Publishing (manual, for now)
+
+There is no CI pipeline for this yet. To release a new version, bump the
+version tag and manually build/push the image:
+
+```sh
+docker build -t europe-west1-docker.pkg.dev/nav-data-images-prod/nav-union-images/istio-proxy-terminator:0.1.2 .
+docker push europe-west1-docker.pkg.dev/nav-data-images-prod/nav-union-images/istio-proxy-terminator:0.1.2
+```
+
+After pushing, update the image tag in
+[`add-istio-proxy-terminator.yaml`](https://github.com/navikt/dataplattform-iac/blob/main/deployment/platform/kyverno-policies/base/add-istio-proxy-terminator.yaml)
+in `dataplattform-iac` to point at the new tag, so the Kyverno policy injects
+the updated sidecar image.
+
 ## Running locally
 
 Requires a valid kubeconfig/in-cluster config and the env vars above:
