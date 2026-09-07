@@ -26,7 +26,6 @@ pub async fn run(
     let field_selector = format!("metadata.name={}", cfg.pod_name);
 
     tracing::info!(pod = %cfg.pod_name, target_container = %cfg.target_container_name, "watching for target container termination");
-    tracing::info!("come with me if you want to live");
 
     watcher(pods, watcher::Config::default().fields(&field_selector))
         .applied_objects()
@@ -38,7 +37,6 @@ pub async fn run(
         .await?;
 
     tracing::info!(target_container = %cfg.target_container_name, "target container has terminated, attempting to stop istio-proxy");
-    tracing::info!("hasta la vista, baby");
 
     shutdown_istio_proxy(http_client, cfg).await?;
 
@@ -92,7 +90,6 @@ async fn shutdown_istio_proxy(client: &reqwest::Client, cfg: &Config) -> anyhow:
         match client.post(&cfg.quitquitquit).send().await {
             Ok(res) if res.status().is_success() => {
                 tracing::info!("successfully shutdown istio-proxy");
-                tracing::info!("terminated.");
                 return Ok(());
             }
             Ok(res) => {
@@ -100,7 +97,6 @@ async fn shutdown_istio_proxy(client: &reqwest::Client, cfg: &Config) -> anyhow:
             }
             Err(e) if is_expected_shutdown_error(&e) => {
                 tracing::info!("istio-proxy connection closed during shutdown");
-                tracing::info!("terminated.");
                 return Ok(());
             }
             Err(e) => {
