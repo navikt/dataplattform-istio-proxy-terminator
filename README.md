@@ -70,6 +70,8 @@ cargo build --release
 cargo test
 ```
 
+Tests also run in GitHub Actions on pull requests and pushes to `main`.
+
 ## Docker
 
 ```sh
@@ -80,7 +82,7 @@ Produces a small image based on `gcr.io/distroless/cc-debian12:nonroot`.
 
 ## Publishing (manual, for now)
 
-There is no CI pipeline for this yet. To release a new version, bump the
+There is no publishing pipeline yet. To release a new version, bump the
 version tag and manually build/push the image:
 
 ```sh
