@@ -1,6 +1,8 @@
 # Build stage
 FROM rust:1-bookworm AS builder
 
+LABEL org.opencontainers.image.source="https://github.com/navikt/dataplattform-istio-proxy-terminator"
+
 WORKDIR /src
 
 # Cache dependency compilation separately from source changes.
